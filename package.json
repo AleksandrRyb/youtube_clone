@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server",
-    "dev:server": "nodemon server",
+    "dev:server": "nodemon --delay 500ms server",
     "dev:client": "cd client && npm start",
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "build": "babel --delete-dir-on-start --out-dir dist --copy-files --ignore \"**/__tests__/**,**/__mocks__/**\" --no-copy-ignored server/src",
