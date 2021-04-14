@@ -1,14 +1,15 @@
 import React from "react";
 import { client } from "../utils/api-client";
+import { useQuery } from "react-query";
 
 const AuthContext = React.createContext(null);
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = React.useState(null);
+  const { data } = useQuery("AuthProvider", () =>
+    client.get("/auth/me").then((res) => res.data.user)
+  );
 
-  React.useEffect(() => {
-    client.get("/auth/me").then((res) => setUser(res.data));
-  }, []);
+  const user = data || null;
 
   return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>;
 }

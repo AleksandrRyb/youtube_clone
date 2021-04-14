@@ -10,7 +10,7 @@ import UploadVideo from "./UploadVideo";
 
 function Navbar({ toggleSidebarOpen }) {
   const user = useAuth();
-  console.log(user);
+
   return (
     <Wrapper>
       <div className="logo flex-row">
