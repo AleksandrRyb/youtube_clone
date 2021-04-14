@@ -4,15 +4,11 @@ import React from "react";
 import Avatar from "../styles/Avatar";
 import { ChannelIcon, SignoutIcon } from "./Icons";
 
-function UserDropdown() {
+function UserDropdown({ user }) {
   return (
     <Menu>
       <MenuButton>
-        <Avatar
-          className="pointer"
-          src="https://dummyimage.com/100x100"
-          alt="username avatar"
-        />
+        <Avatar className="pointer" src={user.avatar} alt={user.username} />
       </MenuButton>
       <MenuList>
         <MenuItem onSelect={() => null}>
