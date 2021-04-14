@@ -1,9 +1,11 @@
 import express from "express";
 import { PrismaClient } from "@prisma/client";
+import { OAuth2Client } from "google-auth-library";
 import jwt from "jsonwebtoken";
 
 import { protect } from "../middlewares/authorization";
 
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const prisma = new PrismaClient();
 
 function getAuthRoutes() {
@@ -11,13 +13,19 @@ function getAuthRoutes() {
 
   router.post("/google-signin", googleSignIn);
   router.get("/me", protect, me);
-  router.get("/signout", signout)
+  router.get("/signout", signout);
 
   return router;
 }
 
 async function googleSignIn(req, res) {
-  const { username, email } = req.body;
+  const { idToken } = req.body;
+  const ticket = await client.verifyIdToken({
+    idToken,
+    audience: process.env.GOOGLE_CLIENT_ID,
+  });
+
+  const { name, picture, email } = ticket.getPayload();
 
   let user = await prisma.user.findUnique({
     where: {
@@ -28,7 +36,8 @@ async function googleSignIn(req, res) {
   if (!user) {
     user = await prisma.user.create({
       data: {
-        username,
+        username: name,
+        avatar: picture,
         email,
       },
     });
@@ -44,14 +53,14 @@ async function googleSignIn(req, res) {
 }
 
 async function me(req, res) {
-    res.status(200).json({
-        user: req.user
-    })
+  res.status(200).json({
+    user: req.user,
+  });
 }
 
 async function signout(req, res) {
-    res.clearCookie('token');
-    res.status(200).json({})
+  res.clearCookie("token");
+  res.status(200).json({});
 }
 
 export { getAuthRoutes };

@@ -13,7 +13,6 @@ import {
 import SidebarAuth from "./SidebarAuth";
 
 function Sidebar({ isSidebarOpen }) {
-  console.log(isSidebarOpen);
   return (
     //@ts-ignore
     <Wrapper open={isSidebarOpen}>
