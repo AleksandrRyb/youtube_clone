@@ -40,6 +40,9 @@ export async function likeVideo() {}
 
 export async function dislikeVideo() {}
 
-export async function deleteVideo() {}
+export async function deleteVideo(videoId) {
+  await client.delete(`/videos/${videoId}`);
+  window.location.pathname = "/";
+}
 
 export async function deleteComment() {}
