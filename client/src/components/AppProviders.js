@@ -6,6 +6,7 @@ import { darkTheme } from "../styles/theme";
 import { AuthProvider } from "context/auth-context";
 import { ReactQueryConfigProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query-devtools";
+import SnackbarProvider from "react-simple-snackbar";
 
 const config = {
   queries: {
@@ -23,11 +24,13 @@ function AppProviders({ children }) {
     <ReactQueryConfigProvider config={config}>
       <Router>
         <AuthProvider>
-          <ThemeProvider theme={darkTheme}>
-            <GlobalStyle />
-            <ReactQueryDevtools />
-            {children}
-          </ThemeProvider>
+          <SnackbarProvider>
+            <ThemeProvider theme={darkTheme}>
+              <GlobalStyle />
+              <ReactQueryDevtools />
+              {children}
+            </ThemeProvider>
+          </SnackbarProvider>
         </AuthProvider>
       </Router>
     </ReactQueryConfigProvider>

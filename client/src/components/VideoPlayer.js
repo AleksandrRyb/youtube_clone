@@ -1,7 +1,9 @@
 import React from "react";
+import videojs from "video.js";
 import "video.js/dist/video-js.css";
+import { addVideoView } from "../utils/api-client";
 
-function VideoPlayer() {
+function VideoPlayer({ previewUrl, video }) {
   return (
     <div data-vjs-player>
       <video
